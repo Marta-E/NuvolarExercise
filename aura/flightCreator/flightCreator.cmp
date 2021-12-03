@@ -1,0 +1,81 @@
+<aura:component controller="flightCreator" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="statusOptions"  type="List"/>
+    <!-- <aura:attribute name="created"  type="Boolean" default="false" /> -->
+    <aura:attribute name="flight"  type="Object"/>
+   
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- 
+        Header of Card
+    -->
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                        <lightning:icon iconName="custom:custom20" title="Flight Creator"/>
+                        <span class="slds-assistive-text">Flight Creator</span>
+                      
+                </div>
+                <h2 class="slds-card__header-title">
+            
+                    <span>Flight Creator</span>
+                
+                </h2>
+
+            </header>
+
+        </div>
+               
+        <div class="slds-media__body">
+            <!-- 
+                 Input that retrives all airports from the ORG
+                 and displays them so the user doesn't have to know which one exist
+            -->
+
+            <div class="slds-p-around_x-small">     
+
+                <!--Combobox Component-->
+                <lightning:combobox aura:id="departure" name="Departure airport" label="Departure airport"
+                                    placeholder="Departure airport"    required="true"
+                                    messageWhenValueMissing="You Must Select the Value"
+                                    options="{!v.statusOptions}"/>
+                <!--Combobox Component-->
+                <lightning:combobox aura:id="arrival" name="Arrival airport" label="Arrival airport"
+                                    placeholder="Arrival airport"   required="true"
+                                    messageWhenValueMissing="You Must Select the Value"
+                                    options="{!v.statusOptions}"/>
+                                    <br/> 
+                 <button class="slds-button slds-button_brand"  onclick="{!c.handleClick}"> Create </button>
+       
+            </div>
+            
+             <!-- 
+              If the variable is filled shows the data
+            -->
+               
+            <aura:if isTrue="{!not(empty(v.flight))}">
+                <div class="slds-p-around_x-small"> 
+                        
+                        <lightning:icon iconName="action:approval" title="Success" size="xx-small"/>
+                        The flight <strong><lightning:formattedText title="dep" value="{!v.flight.Name}" /></strong> has been created. <br/> 
+                        <strong> Departure:&nbsp; </strong>  <lightning:formattedText title="dep" value="{!v.flight.Departure_Airport__r.IATA__c}" /><br/> 
+                        <strong> Arrival:&nbsp;</strong>  <lightning:formattedText title="arr" value="{!v.flight.Arrival_Airport__r.IATA__c}" /> <br/> 
+                        <strong> Distance:&nbsp;</strong> <lightning:formattedNumber title="dis" maximumFractionDigits="2" value="{!v.flight.Distance__c}" /> KM
+                      
+                       
+                    
+                 
+       
+               
+                 </div> 
+            </aura:if>
+           
+        </div>
+ 
+</article>
+
+
+</aura:component>
